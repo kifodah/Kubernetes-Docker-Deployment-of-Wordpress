@@ -1,4 +1,4 @@
-# 🐳 wordpress-db-application
+# 🐳 Kubernetes-Docker-Deployment-of-Wordpress
 
 > A production-ready WordPress + MySQL stack deployed with Docker Compose and Kubernetes — featuring persistent storage, secret management, and modular service configuration.
 
