@@ -1,6 +1,6 @@
 # 🐳 Kubernetes-Docker-Deployment-of-Wordpress
 
-> A production-ready WordPress + MySQL stack deployed with Docker Compose and Kubernetes — featuring persistent storage, secret management, and modular service configuration.
+> A production-ready WordPress + MySQL stack deployed with Docker Compose and Kubernetes featuring persistent storage, secret management, and modular service configuration.
 
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)
 ![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=flat&logo=kubernetes&logoColor=white)
@@ -53,8 +53,8 @@ This project provisions a fully containerised WordPress application backed by My
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/<your-username>/wordpress-db-application.git
-cd wordpress-db-application
+git clone https://github.com/<your-username>/Kubernetes-Docker-Deployment-of-Wordpress.git
+cd Kubernetes-Docker-Deployment-of-Wordpress
 
 # 2. Copy and fill in environment variables
 cp .env.example .env
@@ -158,7 +158,7 @@ data:
   mysql-password: <base64-encoded>
 ```
 
-Deployments reference secrets via `secretKeyRef` instead of plain `value:` fields — keeping credentials out of source control entirely.
+Deployments reference secrets via `secretKeyRef` instead of plain `value:` fields, keeping credentials out of source control entirely.
 
 ---
 
@@ -189,4 +189,4 @@ Contributions are welcome! Please open an issue or pull request.
 3. Commit your changes (`git commit -m 'feat: add my feature'`)
 4. Push and open a Pull Request
 
-Please ensure you never commit real credentials — use `.env.example` as the template.
+Please ensure you never commit real credentials, use `.env.example` as the template.
