@@ -1,0 +1,10 @@
+# Secrets — never commit real credentials
+.env
+
+# OS clutter
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/

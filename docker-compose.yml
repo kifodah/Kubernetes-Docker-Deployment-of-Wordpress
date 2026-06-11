@@ -1,47 +1,51 @@
+version: "3.9"
+
 services:
-  db:
+
+  mysql:
     image: mysql:8.0
-    container_name: wordpress_db
+    container_name: wordpress-mysql
     restart: unless-stopped
+    env_file: .env
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
-      MYSQL_DATABASE: ${MYSQL_DATABASE:-wordpress}
-      MYSQL_USER: ${MYSQL_USER:-wordpress}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-wordpress}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE:      ${MYSQL_DATABASE}
+      MYSQL_USER:          ${MYSQL_USER}
+      MYSQL_PASSWORD:      ${MYSQL_PASSWORD}
     volumes:
-      - db_data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
     networks:
-      - wordpress_net
+      - wordpress-net
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
       interval: 10s
       timeout: 5s
       retries: 5
 
   wordpress:
     image: wordpress:latest
-    container_name: wordpress_app
+    container_name: wordpress-app
     restart: unless-stopped
     depends_on:
-      db:
-        condition: service_healthy
-    ports:
-      - "${WP_PORT:-8080}:80"
+      mysql:
+        condition: service_healthy   
+    env_file: .env
     environment:
-      WORDPRESS_DB_HOST: db:3306
-      WORDPRESS_DB_NAME: ${MYSQL_DATABASE:-wordpress}
-      WORDPRESS_DB_USER: ${MYSQL_USER:-wordpress}
-      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD:-wordpress}
-      WORDPRESS_TABLE_PREFIX: wp_
+      WORDPRESS_DB_HOST:     mysql:3306
+      WORDPRESS_DB_NAME:     ${MYSQL_DATABASE}
+      WORDPRESS_DB_USER:     ${MYSQL_USER}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "8080:80"
     volumes:
-      - wp_data:/var/www/html
+      - wordpress-data:/var/www/html/wp-content
     networks:
-      - wordpress_net
+      - wordpress-net
 
 volumes:
-  db_data:
-  wp_data:
+  mysql-data:      
+  wordpress-data:   
 
 networks:
-  wordpress_net:
+  wordpress-net:
     driver: bridge
